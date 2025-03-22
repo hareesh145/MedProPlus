@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.habittracker"
+    namespace = "com.medpluspro"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.habittracker"
+        applicationId = "com.medpluspro"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion ="1.5.14" // Use the latest compatible version
+        kotlinCompilerExtensionVersion = "1.5.14" // Use the latest compatible version
     }
 }
 kapt {
@@ -86,4 +86,9 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.hilt.android)
     kapt(libs.dagger.hilt.compiler)
+
+    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation("androidx.compose.animation:animation:1.6.4") // Check for latest version
+    implementation("androidx.compose.material3:material3:1.2.1") // Check for latest version
+
 }
