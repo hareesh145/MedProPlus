@@ -5,6 +5,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.*
 
 import androidx.navigation.compose.rememberNavController
+import com.medpluspro.presentation.screens.DashboardScreen
+import com.medpluspro.presentation.screens.ForgotScreen
+import com.medpluspro.presentation.screens.HomeScreen
 import com.medpluspro.presentation.screens.IntroPageScreen
 import com.medpluspro.presentation.screens.LoginScreen
 import com.medpluspro.presentation.screens.RegisterScreen
@@ -27,6 +30,12 @@ fun MedProPlusApp() {
         }
         composable("register"){
             RegisterScreen(navController)
+        }
+        composable("forgot_password"){
+            ForgotScreen(navController)
+        }
+        composable("home_screen"){
+            DashboardScreen()
         }
     }
 }

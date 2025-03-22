@@ -135,8 +135,20 @@ fun LoginScreen(navController: NavController?) {
                             .padding(8.dp)
                     )
 
+                    Text(
+                        text = "Forgot Password?",
+                        fontSize = 16.sp,
+                        color = PrimaryColor,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp, start = 8.dp, end = 8.dp).clickable {
+                                navController?.navigate("forgot_password")
+                            }
+                    )
+
                     Button(
-                        onClick = { navController?.navigate("login") },
+                        onClick = { navController?.navigate("home_screen") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp)
