@@ -34,7 +34,6 @@ import com.medpluspro.R
 fun DoctorAppointmentScreen(){
     val scrollState = rememberScrollState()
     val showContent by remember { mutableStateOf(true) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -95,7 +94,9 @@ fun PatientReviewsSection() {
 @Composable
 fun BookAppointmentButton() {
     Button(
-        onClick = { /* Handle Booking */ },
+        onClick = {
+
+        },
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),

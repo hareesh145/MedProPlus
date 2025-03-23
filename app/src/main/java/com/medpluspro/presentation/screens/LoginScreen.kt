@@ -1,9 +1,12 @@
 package com.medpluspro.presentation.screens
 
 import android.text.Editable
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,18 +20,32 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.SemanticsProperties.EditableText
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +58,33 @@ import com.medpluspro.ui.theme.PrimaryColor
 
 @Composable
 fun LoginScreen(navController: NavController?) {
+    var clicked by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(
+        targetValue = if (clicked) 1.2f else 1f,
+        animationSpec = tween(durationMillis = 300),
+        label = "scaleAnimation"
+    )
+    val annotatedText = buildAnnotatedString {
+        withStyle(
+            style = SpanStyle(
+                color = Color.Black,
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp
+            )
+        ) {
+            append("Don't have an account? ")
+        }
+        withStyle(
+            style = SpanStyle(
+                color = PrimaryColor,
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp
+            )
+        ) {
+            pushStringAnnotation(tag = "Create", annotation = "register")
+            append("Create Account")
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize() // Teal background color from the screenshot
@@ -71,7 +115,9 @@ fun LoginScreen(navController: NavController?) {
                         fontSize = 24.sp,
                         color = Color.Black,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp)
+                        modifier = Modifier
+                            .padding(top = 8.dp, start = 8.dp, end = 8.dp)
+                            .verticalScroll(rememberScrollState())
                     )
                     Text(
                         text = "Hello There! Login Here to Continue",
@@ -106,7 +152,7 @@ fun LoginScreen(navController: NavController?) {
 
                     Text(
                         text = "OR",
-                        fontSize = 16.sp,
+                        fontSize = 14.sp,
                         color = Color.Gray,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
@@ -116,23 +162,33 @@ fun LoginScreen(navController: NavController?) {
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(16.dp)
+                            .height(8.dp)
                     )
-                    TextField(
+                    OutlinedTextField(
                         value = "",
                         onValueChange = { /*TODO*/ },
-                        label = { Text("Mail or Mobile Number") },
+                        placeholder = { Text("Mail or Mobile Number", color = Color.Gray) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(6.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = PrimaryColor,
+                            unfocusedBorderColor = PrimaryColor
+                        )
                     )
-                    TextField(
+                    OutlinedTextField(
                         value = "",
                         onValueChange = { /*TODO*/ },
-                        label = { Text("Password") },
+                        placeholder = { Text("Password", color = Color.Gray) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(6.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = PrimaryColor,
+                            unfocusedBorderColor = PrimaryColor
+                        )
                     )
 
                     Text(
@@ -142,7 +198,8 @@ fun LoginScreen(navController: NavController?) {
                         textAlign = TextAlign.End,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp, start = 8.dp, end = 8.dp).clickable {
+                            .padding(top = 8.dp, start = 8.dp, end = 8.dp)
+                            .clickable {
                                 navController?.navigate("forgot_password")
                             }
                     )
@@ -164,16 +221,29 @@ fun LoginScreen(navController: NavController?) {
                             color = Color.White
                         )
                     }
-                    Text(
-                        text = "Don't have an account? Create Account",
-                        fontSize = 16.sp,
-                        color = Color.Gray,
-                        textAlign = TextAlign.Center,
+                    ClickableText(
+                        text = annotatedText,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 12.dp, start = 8.dp, end = 8.dp).clickable {
-                                navController?.navigate("register")
+                            .wrapContentWidth()
+                            .padding(top = 12.dp, start = 8.dp, end = 8.dp)
+                            .scale(scale),
+                        onClick = { offset ->
+                            annotatedText.getStringAnnotations(
+                                tag = "Create",
+                                start = offset,
+                                end = offset
+                            ).firstOrNull()?.let { annotation ->
+                                clicked = !clicked
+                                navController?.navigate(annotation.item)
                             }
+                        }
+
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(16.dp)
                     )
 
                 }

@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -69,37 +71,57 @@ fun RegisterScreen(navController: NavController?) {
                         modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp)
                     )
 
-                    TextField(
+                    OutlinedTextField(
                         value = "",
                         onValueChange = { /*TODO*/ },
-                        label = { Text("Full Name") },
+                        placeholder = { Text("Full Name", color = Color.Gray) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(8.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = PrimaryColor,
+                            unfocusedBorderColor = PrimaryColor
+                        )
                     )
-                    TextField(
+                    OutlinedTextField(
                         value = "",
                         onValueChange = { /*TODO*/ },
-                        label = { Text("Mobile Number") },
+                        placeholder = { Text("Mobile Number", color = Color.Gray) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(8.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = PrimaryColor,
+                            unfocusedBorderColor = PrimaryColor
+                        )
                     )
-                    TextField(
+                    OutlinedTextField(
                         value = "",
                         onValueChange = { /*TODO*/ },
-                        label = { Text("Email") },
+                        placeholder = { Text("Email", color = Color.Gray) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(8.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = PrimaryColor,
+                            unfocusedBorderColor = PrimaryColor
+                        )
                     )
-                    TextField(
+                    OutlinedTextField(
                         value = "",
                         onValueChange = { /*TODO*/ },
-                        label = { Text("Password") },
+                        placeholder = { Text("Password", color = Color.Gray) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .padding(8.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = PrimaryColor,
+                            unfocusedBorderColor = PrimaryColor
+                        )
                     )
 
                     Button(
