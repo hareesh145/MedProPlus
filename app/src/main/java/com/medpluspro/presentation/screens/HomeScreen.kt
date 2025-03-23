@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,16 +39,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.medpluspro.R
 import com.medpluspro.ui.theme.LoginBGColor
+import com.medpluspro.ui.theme.PrimaryColor
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +60,9 @@ fun HomeScreen() {
 
         // Header Section
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
@@ -70,7 +75,9 @@ fun HomeScreen() {
                 }
             }
         }
-
+        Spacer(
+            modifier = Modifier.height(12.dp)
+        )
         // Search Bar
         OutlinedTextField(
             value = "",
@@ -82,8 +89,8 @@ fun HomeScreen() {
             placeholder = { Text("Search") },
             shape = RoundedCornerShape(12.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.Gray,
-                unfocusedBorderColor = Color.LightGray
+                focusedBorderColor = PrimaryColor,
+                unfocusedBorderColor = PrimaryColor
             )
         )
 
@@ -95,7 +102,7 @@ fun HomeScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         // Upcoming Appointments
-        UpcomingAppointmentsSection()
+        UpcomingAppointmentsSection(navController)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -113,38 +120,46 @@ fun QuickActionsSection() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Quick Actions", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            Text("Show All", fontSize = 14.sp, color = Color.Green)
+            Text("Show All", fontSize = 14.sp, color = PrimaryColor)
         }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            QuickActionItem("Doctor", Icons.Default.Person)
-            QuickActionItem("Medicine", Icons.Default.Person)
-            QuickActionItem("Report", Icons.Default.Person)
-            QuickActionItem("Emergency", Icons.Default.Person)
+            QuickActionItem("Doctor", R.drawable.ic_doctor_logo)
+            QuickActionItem("Medicine", R.drawable.ic_medicines)
+            QuickActionItem("Report", R.drawable.ic_report)
+            QuickActionItem("Emergency", R.drawable.ic_emergency)
         }
     }
 }
 
 @Composable
-fun QuickActionItem(title: String, icon: ImageVector) {
+fun QuickActionItem(title: String, icon: Int) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .size(80.dp)
+            .wrapContentHeight()
+            .wrapContentWidth()
             .clickable { /* Handle click */ }
-            .background(Color.White, shape = RoundedCornerShape(12.dp))
             .padding(8.dp),
     ) {
-        Icon(icon, contentDescription = title, modifier = Modifier.size(30.dp))
+        Icon(
+            painterResource(icon),
+            contentDescription = title,
+            modifier = Modifier.size(66.dp),
+            tint = Color.Unspecified
+        )
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
         Text(title, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
     }
 }
 
 @Composable
-fun UpcomingAppointmentsSection() {
+fun UpcomingAppointmentsSection(navController: NavHostController) {
     Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -152,38 +167,61 @@ fun UpcomingAppointmentsSection() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Upcoming Appointment {5}", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            Text("Show All", fontSize = 14.sp, color = Color.Green)
+            Text("Show All", fontSize = 14.sp, color = PrimaryColor)
         }
-
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .padding(vertical = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFF00C853)),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Row(modifier = Modifier.padding(12.dp)) {
-                Image(
-                    painter = painterResource(id = R.drawable.doctor_img), // Replace with actual image
-                    contentDescription = "Doctor",
+        Spacer(
+            modifier = Modifier.height(10.dp)
+        )
+        LazyColumn {
+            items(2) {
+                Card(
                     modifier = Modifier
-                        .size(60.dp)
-                        .clip(CircleShape)
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Column {
-                    Text("Prof. Dr. Nissi Jhashva", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                    Text("Dentist", fontSize = 14.sp, color = Color.White)
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Person, contentDescription = "Date", tint = Color.White, modifier = Modifier.size(16.dp))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("Feb - 25 - 2025", fontSize = 12.sp, color = Color.White)
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Icon(Icons.Default.Call, contentDescription = "Time", tint = Color.White, modifier = Modifier.size(16.dp))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text("9:30 PM To 10:30 PM", fontSize = 12.sp, color = Color.White)
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .padding(vertical = 8.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFF00C853)),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Row(modifier = Modifier.padding(12.dp).clickable {
+                        navController.navigate("doctor_details")
+                    }) {
+                        Image(
+                            painter = painterResource(id = R.drawable.doctor_img), // Replace with actual image
+                            contentDescription = "Doctor",
+                            modifier = Modifier
+                                .size(60.dp)
+                                .clip(CircleShape)
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column {
+                            Text(
+                                "Prof. Dr. Nissi Jhashva",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                            Text("Dentist", fontSize = 14.sp, color = Color.White)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(
+                                    Icons.Default.Person,
+                                    contentDescription = "Date",
+                                    tint = Color.White,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("Feb - 25 - 2025", fontSize = 12.sp, color = Color.White)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Icon(
+                                    Icons.Default.Call,
+                                    contentDescription = "Time",
+                                    tint = Color.White,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("9:30 PM To 10:30 PM", fontSize = 12.sp, color = Color.White)
+                            }
+                        }
                     }
                 }
             }
@@ -200,7 +238,7 @@ fun PopularDoctorsSection() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Popular Doctor", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            Text("Show All", fontSize = 14.sp, color = Color.Green)
+            Text("Show All", fontSize = 14.sp, color = PrimaryColor)
         }
 
         LazyColumn {
@@ -235,7 +273,12 @@ fun DoctorItem() {
                 Text("Prof. Dr. Nissi Jhashva", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 Text("Dentist", fontSize = 14.sp, color = Color.Gray)
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.Star, contentDescription = "Rating", tint = Color.Yellow, modifier = Modifier.size(16.dp))
+                    Icon(
+                        Icons.Default.Star,
+                        contentDescription = "Rating",
+                        tint = Color.Yellow,
+                        modifier = Modifier.size(16.dp)
+                    )
                     Text("4.5 (230 Reviews)", fontSize = 12.sp, color = Color.Gray)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("29$/Hr", fontSize = 12.sp, color = Color.Black)
@@ -248,3 +291,5 @@ fun DoctorItem() {
         }
     }
 }
+
+

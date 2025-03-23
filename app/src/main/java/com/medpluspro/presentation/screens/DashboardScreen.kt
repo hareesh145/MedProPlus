@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -34,7 +33,7 @@ fun DashboardScreen() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("home") {
-                HomeScreen()
+                HomeScreen(navController)
             }
             composable("schedules") {
                 SchedulesScreen()
@@ -44,6 +43,9 @@ fun DashboardScreen() {
             }
             composable("profile") {
                 ProfileScreen()
+            }
+            composable("doctor_details"){
+                DoctorAppointmentScreen()
             }
         }
     }
