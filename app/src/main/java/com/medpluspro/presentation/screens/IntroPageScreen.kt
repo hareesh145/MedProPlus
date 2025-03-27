@@ -31,7 +31,7 @@ import com.medpluspro.ui.theme.PrimaryColor
 
 @Composable
 fun IntroPageScreen(navController: NavController) {
-// Main layout with background color
+    // Main layout with background color
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -52,99 +52,97 @@ fun IntroPageScreen(navController: NavController) {
                 modifier = Modifier.padding(top = 32.dp)
             )
             // Middle section: Doctor image, title, and subtitle
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f)
+
+            Image(
+                painter = painterResource(id = R.drawable.ic_doctor),
+                contentDescription = "Intro Image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(350.dp)
+                    .padding(top = 40.dp)
+            )
+            // Title
+            Text(
+                text = "FIND THE RIGHT DOCTOR",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            Row(
+                modifier = Modifier.padding(top = 16.dp)
             ) {
+                // Subtitle
                 Image(
-                    painter = painterResource(id = R.drawable.ic_doctor),
-                    contentDescription = "Intro Image",
+                    painter = painterResource(id = R.drawable.anytime),
+                    contentDescription = "Subtitle Image",
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(350.dp)
-                        .padding(top = 40.dp)
+                        .height(28.dp)
+                        .padding(end = 8.dp)
                 )
-                // Title
-                Text(
-                    text = "FIND THE RIGHT DOCTOR",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = 16.dp)
+                Image(
+                    painter = painterResource(id = R.drawable.every_time),
+                    contentDescription = "Subtitle Image",
+                    modifier = Modifier
+                        .height(28.dp)
+                        .padding(end = 8.dp)
                 )
-                Row(
-                    modifier = Modifier.padding(top = 16.dp)
+            }
+            // Bottom section: White background with Get Started button
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(16.dp)
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(
+                            topStart = 16.dp,
+                            topEnd = 16.dp
+                        ) // Rounded corners at the top
+                    )
+                    .padding(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     // Subtitle
-                    Image(
-                        painter = painterResource(id = R.drawable.anytime),
-                        contentDescription = "Subtitle Image",
-                        modifier = Modifier
-                            .height(28.dp)
-                            .padding(end = 8.dp)
+                    Text(
+                        text = "We Provide Trusted Healthcare Anytime, Anywhere. Ensuring You Receive The Best Care Possible. We Provide Trusted Healthcare Anytime, Anywhere",
+                        fontSize = 18.sp,
+                        color = Color.Black,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp)
                     )
-                    Image(
-                        painter = painterResource(id = R.drawable.every_time),
-                        contentDescription = "Subtitle Image",
+                    Button(
+                        onClick = { navController.navigate("login") },
                         modifier = Modifier
-                            .height(28.dp)
-                            .padding(end = 8.dp)
-                    )
-                }
-                // Bottom section: White background with Get Started button
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(16.dp)
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .background(
-                            color = Color.White,
-                            shape = RoundedCornerShape(
-                                topStart = 16.dp,
-                                topEnd = 16.dp
-                            ) // Rounded corners at the top
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        shape = RoundedCornerShape(28.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = PrimaryColor
                         )
-                        .padding(16.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween
                     ) {
-                        // Subtitle
                         Text(
-                            text = "We Provide Trusted Healthcare Anytime, Anywhere. Ensuring You Receive The Best Care Possible. We Provide Trusted Healthcare Anytime, Anywhere",
+                            text = "Get Started",
                             fontSize = 18.sp,
-                            color = Color.Black,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp)
+                            color = Color.White
                         )
-                        Button(
-                            onClick = { navController.navigate("login") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(56.dp),
-                            shape = RoundedCornerShape(28.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = PrimaryColor
-                            )
-                        ) {
-                            Text(
-                                text = "Get Started",
-                                fontSize = 18.sp,
-                                color = Color.White
-                            )
-                        }
                     }
                 }
             }
+
         }
     }
+
 }

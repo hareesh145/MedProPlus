@@ -195,7 +195,7 @@ fun LoginScreen(navController: NavController?) {
                         text = "Forgot Password?",
                         fontSize = 16.sp,
                         color = PrimaryColor,
-                        textAlign = TextAlign.End,
+                        textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp, start = 8.dp, end = 8.dp)

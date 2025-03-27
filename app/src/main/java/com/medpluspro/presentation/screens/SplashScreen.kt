@@ -35,7 +35,12 @@ fun SplashScreen(navController: NavHostController) {
         startAnimation = true
         delay(2000) // Show splash for 2 seconds
         // Here you can navigate to your main screen
-        navController.navigate("intro_pager")
+        navController.navigate("intro_pager") {
+            popUpTo("splash_screen") {
+                inclusive = true
+            }
+        }
+
     }
 
     Box(
@@ -48,7 +53,8 @@ fun SplashScreen(navController: NavHostController) {
             painter = painterResource(id = R.drawable.splash_screen), // Replace with your logo
             contentDescription = "App Logo",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .alpha(alphaAnim)
         )
     }
